@@ -1,0 +1,4 @@
+<input type="file" accept=".xlsx" (change)="uploadFile($event)" multiple>
+<ul>
+  <li *ngFor="let name of uploadedFileNames">{{name}}</li>
+</ul>
