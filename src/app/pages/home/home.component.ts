@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { Config } from '../../configs/config';
+import { StudentDataModel } from "../../models/student-data.model";
 
 @Component({
   selector: 'app-home',
@@ -8,27 +9,38 @@ import { Config } from '../../configs/config';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
+  readonly idRegex = /'([0-9]+)'/g;
 
   constructor() {
   }
 
   ngOnInit() {
-    this.uploadedFileNames = JSON.parse(sessionStorage.getItem(Config.JSON_UPLOADED_FILES_KEY) || '[]');
+    this.uploadedFileNames = JSON.parse(sessionStorage.getItem(Config.UPLOADED_FILES_KEY) || '[]');
   }
 
   uploadedFileNames: String[] = [];
+
+  getUserIdFromDescription(description: string): number {
+    let match = [...description.matchAll(this.idRegex)];
+    if(match.length == 0) throw new Error();
+    return +match[0][1];
+  }
+
+  getLectureIdFromDescription(description: string): number {
+    let match = [...description.matchAll(this.idRegex)];
+    if(match.length == 0) throw new Error();
+    return +match[1][1];
+  }
 
   uploadFile(event: any) {
     const target: DataTransfer = <DataTransfer>(event.target);
 
     for (let i = 0; i < target.files.length; i++) {
-      let jsonFiles: any = JSON.parse(sessionStorage.getItem(Config.JSON_STORAGE_KEY) || '[]');
-      if (!jsonFiles) jsonFiles = [];
+      let studentsData: any = JSON.parse(sessionStorage.getItem(Config.STUDENTS_DATA_STORAGE_KEY) || '{}');
 
       let index;
-      if ((index = this.uploadedFileNames.indexOf(target.files[i].name)) != -1){
+      if ((index = this.uploadedFileNames.indexOf(target.files[i].name)) != -1) {
         this.uploadedFileNames.splice(index, 1);
-        jsonFiles.splice(index, 1);
       }
       this.uploadedFileNames.push(target.files[i].name)
 
@@ -37,12 +49,40 @@ export class HomeComponent {
       reader.onload = (e: any) => {
         const wb: XLSX.WorkBook = XLSX.read(e.target.result, {type: 'binary'});
         const ws: XLSX.WorkSheet = wb.Sheets[wb.SheetNames[0]];
+        const data: any[] = XLSX.utils.sheet_to_json(ws);
+        for (const row of data) {
+          try{
+            let studentId;
+            if ((studentId = row['ID']) != undefined) {
+              if (studentsData[studentId] === undefined)
+                studentsData[studentId] = new StudentDataModel(studentId);
 
-        jsonFiles.push(XLSX.utils.sheet_to_json(ws));
+              studentsData[studentId].grade = row['Result'];
+            } else {
+              if (row['Event context'] == 'Assignment: Качване на курсови задачи и проекти' &&
+                row['Component'] == 'File submissions' &&
+                (row['Event name'] == 'Submission created.' || row['Event name'] == 'Submission updated.')) {
+                studentId = this.getUserIdFromDescription(row['Description']);
+                if (studentsData[studentId] == undefined)
+                  studentsData[studentId] = new StudentDataModel(studentId);
 
-        sessionStorage.setItem(Config.JSON_STORAGE_KEY, JSON.stringify(jsonFiles));
-        sessionStorage.setItem(Config.JSON_UPLOADED_FILES_KEY, JSON.stringify(this.uploadedFileNames));
-      };
+                studentsData[studentId].submitAssignment();
+              } else if(row['Event context'].startsWith('File: Лекция')){
+                let description = row['Description'];
+                studentId = this.getUserIdFromDescription(description);
+                if (studentsData[studentId] == undefined)
+                  studentsData[studentId] = new StudentDataModel(studentId);
+
+                studentsData[studentId].viewLecture(this.getLectureIdFromDescription(description));
+              }
+            }
+          } catch (_){}
+        }
+
+        sessionStorage.setItem(Config.STUDENTS_DATA_STORAGE_KEY, JSON.stringify(studentsData));
+        sessionStorage.setItem(Config.UPLOADED_FILES_KEY, JSON.stringify(this.uploadedFileNames));
+      }
+      ;
     }
   }
 }

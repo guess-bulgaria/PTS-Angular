@@ -2,13 +2,13 @@ import { Config } from "../configs/config";
 
 export abstract class BasePage {
 
-  private readonly _jsonItems: any;
+  private readonly _studentsData: any;
 
-  get jsonItems(){
-    return this._jsonItems;
+  get studentsData(){
+    return this._studentsData;
   }
 
   protected constructor() {
-    this._jsonItems = sessionStorage.getItem(Config.JSON_STORAGE_KEY);
+    this._studentsData = sessionStorage.getItem(Config.STUDENTS_DATA_STORAGE_KEY);
   }
 }

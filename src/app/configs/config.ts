@@ -1,4 +1,4 @@
 export class Config{
-  static JSON_STORAGE_KEY = 'jsonItems';
-  static JSON_UPLOADED_FILES_KEY = 'jsonNames';
+  static STUDENTS_DATA_STORAGE_KEY = 'studentsData';
+  static UPLOADED_FILES_KEY = 'uploadedFiles';
 }
