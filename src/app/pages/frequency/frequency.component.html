@@ -1,2 +1,22 @@
-<p>frequency works!</p>
-<p>За опцията „честотно разпределение“ е необходимо да се определи абсолютна и относителната честота на избраните данни от Изпълнени и качени курсови задачи и проекти  и данните да се визуализират чрез честотна таблица.За помощ при реализацията и тестването може да използвате: https://www.btu.bg/statexcel/file2.html </p>
+<h1>Честотно разпределение</h1>
+<table>
+  <thead>
+  <tr>
+    <th>Качени файла</th>
+    <th>Абсолютна честота</th>
+    <th>Относителна честота</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let row of rows">
+    <td>{{row.uploadedFiles}}</td>
+    <td>{{row.amount}}</td>
+    <td>{{toFixed(row.frequency, 3)}}%</td>
+  </tr>
+  <tr>
+    <td>Общо</td>
+    <td>{{totalAmount}}</td>
+    <td>{{totalFrequency}}%</td>
+  </tr>
+  </tbody>
+</table>

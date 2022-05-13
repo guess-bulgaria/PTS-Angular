@@ -1,12 +1,7 @@
 body {
-  --as-primary-text-color: #008bcb;
-  --as-body-text-color: #4b4b4b;
-  --as-light-text-color: #a5a5a5;
-  --as-light-background-color: #e8f8ff;
-  --as-input-background-color: #bfe2f2;
-  --as-hover-background-color: #74c2e5;
-  --as-dark-color: #00577f;
-  --as-highlight-color: #fda23f;
-  --as-danger-color: #dc3545;
-  --as-danger-dark-color: #bb2d3b;
+  --primary-color: #008bcb;
+}
+
+th {
+  padding-right: 14px;
 }

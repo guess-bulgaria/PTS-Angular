@@ -1,6 +1,6 @@
 export class StudentDataModel {
   id: number;
-  hasSubmittedAssignment: boolean = false;
+  uploadedFiles: number = 0;
   lecturesViewed: number[] = [];
   grade?: number;
 
@@ -8,8 +8,8 @@ export class StudentDataModel {
     this.id = id;
   }
 
-  submitAssignment() {
-    this.hasSubmittedAssignment = true;
+  submitAssignment(files: number) {
+    this.uploadedFiles = files;
   }
 
   viewLecture(id: number) {

@@ -8,7 +8,7 @@
   <thead>
     <tr>
       <th>ID</th>
-      <th>Качена курова задача?</th>
+      <th>Качени файла</th>
       <th>Прегледани лекции</th>
       <th>Оценка</th>
     </tr>
@@ -16,7 +16,7 @@
   <tbody>
     <tr *ngFor="let student of values">
       <td>{{student.id}}</td>
-      <td [style]="'background-color: ' + (student.hasSubmittedAssignment ? '#26C485' : '#FF7477')">{{student.hasSubmittedAssignment ? 'Да' : 'Не'}}</td>
+      <td [style]="'background-color: ' + (student.uploadedFiles ? '#26C485' : '#FF7477')">{{student.uploadedFiles}}</td>
       <td [style]="'background-color: ' + (student.lecturesViewed.length ? '#26C485' : '#FF7477')">{{student.lecturesViewed.length}}</td>
       <td [style]="'background-color: ' + (student.grade && student.grade !== 2 ? '#26C485' : '#FF7477')">{{student.grade || 'n/a'}}</td>
     </tr>

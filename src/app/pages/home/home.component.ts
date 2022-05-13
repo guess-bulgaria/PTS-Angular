@@ -72,11 +72,12 @@ export class HomeComponent {
               if (row['Event context'] == 'Assignment: Качване на курсови задачи и проекти' &&
                 row['Component'] == 'File submissions' &&
                 (row['Event name'] == 'Submission created.' || row['Event name'] == 'Submission updated.')) {
-                studentId = this.getUserIdFromDescription(row['Description']);
+                let description = row['Description'];
+                studentId = this.getUserIdFromDescription(description);
                 if (this.studentsData[studentId] == undefined)
                   this.studentsData[studentId] = new StudentDataModel(studentId);
 
-                this.studentsData[studentId].submitAssignment();
+                this.studentsData[studentId].submitAssignment(this.getLectureIdFromDescription(description));
               } else if (row['Event context'].startsWith('File: Лекция')) {
                 let description = row['Description'];
                 studentId = this.getUserIdFromDescription(description);
