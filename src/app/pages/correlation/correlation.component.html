@@ -1,3 +1,5 @@
-<p>correlation works!</p>
-<p>За опцията „корелационен анализ “е необходимо да се определи зависимостта между оценката на всеки един студент за дадената дисциплина и честотното разпределение на данните от Брой прегледани лекции. За помощ при реализацията и тестването може да използвате: https://www.btu.bg/statexcel/file8.html</p>
-<pre>{{studentsData}}</pre>
+<h1>Корелационен анализ</h1>
+<p>
+  {{correlationValue === undefined ? 'n/a' : toFixed(correlationValue, 3)}}
+  {{correlationDependence ? '(' + correlationDependence + ' зависимост)' : ''}}
+</p>
