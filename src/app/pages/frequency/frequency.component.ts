@@ -3,8 +3,7 @@ import { BasePage } from "../base-page";
 
 @Component({
   selector: 'app-frequency',
-  templateUrl: './frequency.component.html',
-  styleUrls: ['./frequency.component.css']
+  templateUrl: './frequency.component.html'
 })
 export class FrequencyComponent extends BasePage {
 

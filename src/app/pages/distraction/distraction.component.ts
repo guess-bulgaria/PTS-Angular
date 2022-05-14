@@ -4,8 +4,7 @@ import { CalculationHelper } from "../../helpers/calculation.helper";
 
 @Component({
   selector: 'app-distraction',
-  templateUrl: './distraction.component.html',
-  styleUrls: ['./distraction.component.css']
+  templateUrl: './distraction.component.html'
 })
 export class DistractionComponent extends BasePage {
   constructor() {

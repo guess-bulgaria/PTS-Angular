@@ -5,8 +5,7 @@ import { StudentDataModel } from "../../models/student-data.model";
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  templateUrl: './home.component.html'
 })
 export class HomeComponent {
   readonly idRegex = /'([0-9]+)'/g;
@@ -32,16 +31,10 @@ export class HomeComponent {
     this.values = Object.values(this.studentsData);
   }
 
-  getUserIdFromDescription(description: string): number {
+  getNumberFromDescription(description: string, position: number): number {
     let match = [...description.matchAll(this.idRegex)];
     if (match.length == 0) throw new Error();
-    return +match[0][1];
-  }
-
-  getLectureIdFromDescription(description: string): number {
-    let match = [...description.matchAll(this.idRegex)];
-    if (match.length == 0) throw new Error();
-    return +match[1][1];
+    return +match[position][1];
   }
 
   uploadFile(event: any) {
@@ -73,18 +66,18 @@ export class HomeComponent {
                 row['Component'] == 'File submissions' &&
                 (row['Event name'] == 'Submission created.' || row['Event name'] == 'Submission updated.')) {
                 let description = row['Description'];
-                studentId = this.getUserIdFromDescription(description);
+                studentId = this.getNumberFromDescription(description, 0);
                 if (this.studentsData[studentId] == undefined)
                   this.studentsData[studentId] = new StudentDataModel(studentId);
 
-                this.studentsData[studentId].submitAssignment(this.getLectureIdFromDescription(description));
+                this.studentsData[studentId].submitAssignment(this.getNumberFromDescription(description, 1));
               } else if (row['Event context'].startsWith('File: Лекция')) {
                 let description = row['Description'];
-                studentId = this.getUserIdFromDescription(description);
+                studentId = this.getNumberFromDescription(description, 0);
                 if (this.studentsData[studentId] == undefined)
                   this.studentsData[studentId] = new StudentDataModel(studentId);
 
-                this.studentsData[studentId].viewLecture(this.getLectureIdFromDescription(description));
+                this.studentsData[studentId].viewLecture(this.getNumberFromDescription(description, 1));
               }
             }
           } catch (_) {

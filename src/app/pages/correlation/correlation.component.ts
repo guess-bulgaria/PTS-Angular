@@ -4,8 +4,7 @@ import { CalculationHelper } from "../../helpers/calculation.helper";
 
 @Component({
   selector: 'app-correlation',
-  templateUrl: './correlation.component.html',
-  styleUrls: ['./correlation.component.css']
+  templateUrl: './correlation.component.html'
 })
 export class CorrelationComponent extends BasePage {
   constructor() {

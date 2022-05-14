@@ -4,8 +4,7 @@ import { CalculationHelper } from "../../helpers/calculation.helper";
 
 @Component({
   selector: 'app-trend',
-  templateUrl: './trend.component.html',
-  styleUrls: ['./trend.component.css']
+  templateUrl: './trend.component.html'
 })
 export class TrendComponent extends BasePage {
   constructor() {
